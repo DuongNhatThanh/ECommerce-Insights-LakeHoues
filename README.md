@@ -886,9 +886,8 @@ Apache NiFi manages the flow of data through various sources and sinks in real-t
 - **Feedback Mechanism**: Establish a feedback mechanism to gather user input for continuous improvement of the system.
 
 # Authors
-Nguyen Trung Nghia
-- Contact: trungnghia294@gmail.com
-- GitHub: [Ren294](https://github.com/Ren294)
-- Linkedln: [tnghia294](https://www.linkedin.com/in/tnghia294/)
+Duong Nhat Thanh
+- Contact: duongnhatthanh2011@gmail.com
+- Source: [Ren294](https://github.com/Ren294)
 
 
