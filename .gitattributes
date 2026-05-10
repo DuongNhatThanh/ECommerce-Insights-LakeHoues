@@ -1,0 +1,25 @@
+* text=auto
+
+*.sh text eol=lf
+*.py text eol=lf
+*.sql text eol=lf
+*.cql text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.xml text eol=lf
+*.conf text eol=lf
+*.properties text eol=lf
+*.template text eol=lf
+*.json text eol=lf
+*.ipynb text eol=lf
+dockerfile text eol=lf
+Dockerfile text eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.jar binary
+*.pdf binary
+*.pbit binary
+*.pbix binary

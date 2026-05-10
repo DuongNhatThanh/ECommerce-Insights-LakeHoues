@@ -1,0 +1,21 @@
+Host namenode
+    HostName namenode
+    User root
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+
+Host datanode
+    HostName datanode
+    User root
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+
+Host resourcemanager
+    HostName resourcemanager
+    User root
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+
+Host *
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null

@@ -1,0 +1,103 @@
+FROM ubuntu:22.04
+
+LABEL maintainer="TrungNghia <trungnghia294@gmail.com>"
+LABEL version="2.0"
+
+WORKDIR /root
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Ho_Chi_Minh
+
+# Base packages
+RUN apt-get update && apt-get install -y \
+    openssh-server \
+    openjdk-11-jdk \
+    wget \
+    curl \
+    vim \
+    rsync \
+    net-tools \
+    iputils-ping \
+    procps \
+    sudo \
+    && apt-get clean
+
+# SSH setup
+RUN mkdir -p /var/run/sshd
+
+RUN ssh-keygen -t rsa -f /root/.ssh/id_rsa -P "" && \
+    cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys && \
+    chmod 600 /root/.ssh/authorized_keys
+
+RUN echo 'root:thanhdn' | chpasswd
+
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+# Hadoop
+ENV HADOOP_VERSION=3.3.6
+ENV HADOOP_SHA512=DE3EACA2E0517E4B569A88B63C89FAE19CB8AC6C01FF990F1FF8F0CC0F3128C8E8A23DB01577CA562A0E0BB1B4A3889F8C74384E609CD55E537AADA3DCAA9F8A
+
+RUN set -eux; \
+    hadoop_archive="hadoop-${HADOOP_VERSION}.tar.gz"; \
+    downloaded=0; \
+    for hadoop_base_url in \
+        "https://archive.apache.org/dist/hadoop/common" \
+        "https://downloads.apache.org/hadoop/common"; \
+    do \
+        if curl -fL --connect-timeout 15 --retry 2 --retry-delay 2 \
+            "${hadoop_base_url}/hadoop-${HADOOP_VERSION}/${hadoop_archive}" \
+            -o "/tmp/${hadoop_archive}"; then \
+            downloaded=1; \
+            break; \
+        fi; \
+    done; \
+    test "${downloaded}" = "1"; \
+    echo "${HADOOP_SHA512}  /tmp/${hadoop_archive}" | sha512sum -c -; \
+    tar -xzf "/tmp/${hadoop_archive}" -C /usr/local; \
+    mv "/usr/local/hadoop-${HADOOP_VERSION}" /usr/local/hadoop; \
+    rm "/tmp/${hadoop_archive}"
+
+# Environment variables
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV HADOOP_HOME=/usr/local/hadoop
+ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+ENV HADOOP_INSTALL=$HADOOP_HOME
+ENV HADOOP_MAPRED_HOME=$HADOOP_HOME
+ENV HADOOP_COMMON_HOME=$HADOOP_HOME
+ENV HADOOP_HDFS_HOME=$HADOOP_HOME
+ENV HADOOP_YARN_HOME=$HADOOP_HOME
+
+ENV HDFS_NAMENODE_USER=root
+ENV HDFS_DATANODE_USER=root
+ENV HDFS_SECONDARYNAMENODE_USER=root
+ENV YARN_RESOURCEMANAGER_USER=root
+ENV YARN_NODEMANAGER_USER=root
+
+ENV PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+
+# Hadoop native libs
+ENV HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+ENV LD_LIBRARY_PATH=$HADOOP_HOME/lib/native
+
+# Hadoop directories
+RUN mkdir -p /hadoop/dfs/name && \
+    mkdir -p /hadoop/dfs/data
+
+# Copy configs
+COPY config/* $HADOOP_CONF_DIR/
+
+RUN echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> $HADOOP_CONF_DIR/hadoop-env.sh && \
+    echo "export HDFS_NAMENODE_USER=root" >> $HADOOP_CONF_DIR/hadoop-env.sh && \
+    echo "export HDFS_DATANODE_USER=root" >> $HADOOP_CONF_DIR/hadoop-env.sh && \
+    echo "export HDFS_SECONDARYNAMENODE_USER=root" >> $HADOOP_CONF_DIR/hadoop-env.sh && \
+    echo "export YARN_RESOURCEMANAGER_USER=root" >> $HADOOP_CONF_DIR/yarn-env.sh && \
+    echo "export YARN_NODEMANAGER_USER=root" >> $HADOOP_CONF_DIR/yarn-env.sh
+
+# Entrypoint
+COPY entrypoint.sh /root/entrypoint.sh
+RUN chmod +x /root/entrypoint.sh
+
+EXPOSE 9870 9864 8088 9000 22
+
+ENTRYPOINT ["/root/entrypoint.sh"]

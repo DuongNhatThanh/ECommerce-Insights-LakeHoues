@@ -1,0 +1,182 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="980" viewBox="0 0 1500 980" role="img" aria-labelledby="title desc">
+  <title id="title">ECommerce Insights Lakehouse Project Architecture</title>
+  <desc id="desc">Architecture diagram for the local e-commerce lakehouse project, showing sources, orchestration, processing, storage, serving stores, and analytics tools.</desc>
+  <defs>
+    <linearGradient id="page" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef2f7"/>
+    </linearGradient>
+    <linearGradient id="airflow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0f766e"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+    </marker>
+    <style>
+      .bg { fill: url(#page); }
+      .title { font: 700 42px "Segoe UI", Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 18px "Segoe UI", Arial, sans-serif; fill: #475569; }
+      .lane { fill: rgba(255,255,255,0.78); stroke: #dbe3ee; stroke-width: 1.2; }
+      .laneTitle { font: 700 17px "Segoe UI", Arial, sans-serif; fill: #334155; letter-spacing: 0; }
+      .card { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.2; filter: url(#softShadow); }
+      .cardTitle { font: 700 17px "Segoe UI", Arial, sans-serif; fill: #111827; }
+      .cardText { font: 400 13px "Segoe UI", Arial, sans-serif; fill: #64748b; }
+      .chip { fill: #e0f2fe; stroke: #7dd3fc; stroke-width: 1; }
+      .chipText { font: 700 12px "Segoe UI", Arial, sans-serif; fill: #075985; }
+      .airflowTitle { font: 700 22px "Segoe UI", Arial, sans-serif; fill: #ffffff; }
+      .airflowText { font: 400 14px "Segoe UI", Arial, sans-serif; fill: #e0f2fe; }
+      .arrow { fill: none; stroke: #64748b; stroke-width: 2.4; marker-end: url(#arrow); }
+      .arrowBlue { fill: none; stroke: #2563eb; stroke-width: 2.6; marker-end: url(#arrowBlue); }
+      .stream { fill: none; stroke: #f59e0b; stroke-width: 2.6; marker-end: url(#arrow); stroke-dasharray: 8 7; }
+      .caption { font: 600 13px "Segoe UI", Arial, sans-serif; fill: #475569; }
+      .iconCircle { fill: #f1f5f9; stroke: #cbd5e1; stroke-width: 1; }
+      .source { fill: #fefce8; stroke: #fde68a; }
+      .process { fill: #eff6ff; stroke: #bfdbfe; }
+      .storage { fill: #f0fdf4; stroke: #bbf7d0; }
+      .serve { fill: #fff7ed; stroke: #fed7aa; }
+      .ui { fill: #f5f3ff; stroke: #ddd6fe; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1500" height="980" rx="0"/>
+  <text class="title" x="64" y="72">Project Architecture</text>
+  <text class="subtitle" x="66" y="105">Local Docker lakehouse for e-commerce batch analytics, clickstream processing, log monitoring, and notebook exploration</text>
+
+  <rect x="70" y="148" width="1360" height="86" rx="22" fill="url(#airflow)" filter="url(#softShadow)"/>
+  <text class="airflowTitle" x="108" y="185">Apache Airflow orchestration</text>
+  <text class="airflowText" x="108" y="211">Triggers JDBC import, Bronze to Silver transforms, Gold warehouse builds, Delta optimize/vacuum jobs, and operational setup.</text>
+  <rect x="1122" y="174" width="258" height="34" rx="17" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)"/>
+  <text class="airflowText" x="1144" y="196">Manual trigger or scheduled DAGs</text>
+
+  <g>
+    <rect class="lane" x="56" y="278" width="250" height="548" rx="18"/>
+    <text class="laneTitle" x="84" y="318">1. Data Sources</text>
+    <rect class="card source" x="88" y="352" width="186" height="92" rx="14"/>
+    <circle class="iconCircle" cx="116" cy="384" r="14"/>
+    <text class="cardTitle" x="140" y="381">Kaggle datasets</text>
+    <text class="cardText" x="140" y="404">E-commerce and marketing CSVs</text>
+    <rect class="card source" x="88" y="472" width="186" height="92" rx="14"/>
+    <circle class="iconCircle" cx="116" cy="504" r="14"/>
+    <text class="cardTitle" x="140" y="501">PostgreSQL ecom</text>
+    <text class="cardText" x="140" y="524">Restored source database</text>
+    <rect class="card source" x="88" y="592" width="186" height="92" rx="14"/>
+    <circle class="iconCircle" cx="116" cy="624" r="14"/>
+    <text class="cardTitle" x="140" y="621">NiFi input files</text>
+    <text class="cardText" x="140" y="644">Clickstream and access logs</text>
+    <rect class="card source" x="88" y="712" width="186" height="80" rx="14"/>
+    <circle class="iconCircle" cx="116" cy="744" r="14"/>
+    <text class="cardTitle" x="140" y="741">Kafka topics</text>
+    <text class="cardText" x="140" y="764">login, logout, click events</text>
+  </g>
+
+  <g>
+    <rect class="lane" x="348" y="278" width="250" height="548" rx="18"/>
+    <text class="laneTitle" x="376" y="318">2. Ingestion and Compute</text>
+    <rect class="card process" x="380" y="352" width="186" height="92" rx="14"/>
+    <text class="cardTitle" x="410" y="384">Spark JDBC</text>
+    <text class="cardText" x="410" y="408">Source DB to HDFS Bronze</text>
+    <rect class="card process" x="380" y="488" width="186" height="92" rx="14"/>
+    <text class="cardTitle" x="410" y="520">PySpark ETL</text>
+    <text class="cardText" x="410" y="544">Bronze to Silver and Gold</text>
+    <rect class="card process" x="380" y="624" width="186" height="92" rx="14"/>
+    <text class="cardTitle" x="410" y="656">Apache NiFi</text>
+    <text class="cardText" x="410" y="680">Moves click and log files</text>
+    <rect class="card process" x="380" y="748" width="186" height="54" rx="14"/>
+    <text class="cardTitle" x="410" y="781">Spark Streaming</text>
+  </g>
+
+  <g>
+    <rect class="lane" x="640" y="278" width="270" height="548" rx="18"/>
+    <text class="laneTitle" x="668" y="318">3. Lakehouse Core</text>
+    <rect class="card storage" x="672" y="352" width="206" height="74" rx="14"/>
+    <text class="cardTitle" x="704" y="384">HDFS Bronze</text>
+    <text class="cardText" x="704" y="406">Raw imported datasets</text>
+    <rect class="card storage" x="672" y="458" width="206" height="74" rx="14"/>
+    <text class="cardTitle" x="704" y="490">HDFS Silver</text>
+    <text class="cardText" x="704" y="512">Clean ecom, click, and log data</text>
+    <rect class="card storage" x="672" y="564" width="206" height="82" rx="14"/>
+    <text class="cardTitle" x="704" y="596">Hive + Delta Gold</text>
+    <text class="cardText" x="704" y="620">Dimensional warehouse tables</text>
+    <rect class="card storage" x="672" y="690" width="206" height="82" rx="14"/>
+    <text class="cardTitle" x="704" y="722">Hive Metastore</text>
+    <text class="cardText" x="704" y="746">Shared table metadata</text>
+  </g>
+
+  <g>
+    <rect class="lane" x="952" y="278" width="230" height="548" rx="18"/>
+    <text class="laneTitle" x="980" y="318">4. Serving Stores</text>
+    <rect class="card serve" x="984" y="356" width="166" height="92" rx="14"/>
+    <text class="cardTitle" x="1012" y="388">Cassandra</text>
+    <text class="cardText" x="1012" y="412">Realtime log_data keyspace</text>
+    <rect class="card serve" x="984" y="492" width="166" height="92" rx="14"/>
+    <text class="cardTitle" x="1012" y="524">Elasticsearch</text>
+    <text class="cardText" x="1012" y="548">Logstash indexed events</text>
+    <rect class="card serve" x="984" y="628" width="166" height="92" rx="14"/>
+    <text class="cardTitle" x="1012" y="660">Spark Thrift</text>
+    <text class="cardText" x="1012" y="684">HTTP SQL endpoint</text>
+  </g>
+
+  <g>
+    <rect class="lane" x="1224" y="278" width="220" height="548" rx="18"/>
+    <text class="laneTitle" x="1252" y="318">5. Analytics UI</text>
+    <rect class="card ui" x="1256" y="356" width="156" height="74" rx="14"/>
+    <text class="cardTitle" x="1284" y="388">Grafana</text>
+    <text class="cardText" x="1284" y="410">Cassandra dashboards</text>
+    <rect class="card ui" x="1256" y="470" width="156" height="74" rx="14"/>
+    <text class="cardTitle" x="1284" y="502">Kibana</text>
+    <text class="cardText" x="1284" y="524">Log analytics</text>
+    <rect class="card ui" x="1256" y="584" width="156" height="74" rx="14"/>
+    <text class="cardTitle" x="1284" y="616">Jupyter</text>
+    <text class="cardText" x="1284" y="638">EDA and funnels</text>
+    <rect class="card ui" x="1256" y="698" width="156" height="74" rx="14"/>
+    <text class="cardTitle" x="1284" y="730">SQL clients</text>
+    <text class="cardText" x="1284" y="752">Spark SQL access</text>
+  </g>
+
+  <path class="arrowBlue" d="M 274 518 C 318 518 336 398 380 398"/>
+  <path class="arrowBlue" d="M 566 398 C 608 398 628 389 672 389"/>
+  <path class="arrowBlue" d="M 878 389 C 916 389 944 402 984 402"/>
+  <path class="arrowBlue" d="M 1150 402 C 1190 402 1214 393 1256 393"/>
+
+  <path class="arrow" d="M 274 398 C 316 398 338 520 380 520"/>
+  <path class="arrow" d="M 566 520 C 608 520 628 495 672 495"/>
+  <path class="arrow" d="M 878 495 C 916 495 944 538 984 538"/>
+  <path class="arrow" d="M 1150 538 C 1190 538 1214 507 1256 507"/>
+
+  <path class="arrow" d="M 274 638 C 316 638 338 670 380 670"/>
+  <path class="arrow" d="M 566 670 C 608 670 628 495 672 495"/>
+  <path class="arrow" d="M 878 605 C 918 605 944 674 984 674"/>
+  <path class="arrow" d="M 1150 674 C 1190 674 1214 735 1256 735"/>
+
+  <path class="stream" d="M 274 752 C 320 752 334 775 380 775"/>
+  <path class="stream" d="M 566 775 C 724 842 852 850 984 402"/>
+  <path class="stream" d="M 566 775 C 748 870 842 720 984 538"/>
+
+  <path class="arrowBlue" d="M 775 646 C 775 676 775 666 775 690"/>
+  <path class="arrowBlue" d="M 775 532 C 775 552 775 544 775 564"/>
+  <path class="arrowBlue" d="M 775 426 C 775 446 775 438 775 458"/>
+
+  <path class="arrow" d="M 750 234 C 750 250 750 260 750 278"/>
+  <path class="arrow" d="M 490 234 C 490 250 490 260 490 278"/>
+  <path class="arrow" d="M 1068 234 C 1068 250 1068 260 1068 278"/>
+
+  <g>
+    <rect class="chip" x="86" y="870" width="142" height="32" rx="16"/>
+    <text class="chipText" x="108" y="891">Batch pipeline</text>
+    <path class="arrowBlue" d="M 248 886 L 340 886"/>
+    <rect class="chip" x="392" y="870" width="150" height="32" rx="16"/>
+    <text class="chipText" x="416" y="891">Streaming path</text>
+    <path class="stream" d="M 562 886 L 654 886"/>
+    <rect class="chip" x="706" y="870" width="202" height="32" rx="16"/>
+    <text class="chipText" x="730" y="891">Metadata and SQL serving</text>
+  </g>
+
+  <text class="caption" x="70" y="940">Power BI is intentionally excluded from this README until that integration is revisited.</text>
+</svg>

@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="800" viewBox="0 0 1400 800" role="img" aria-labelledby="title desc">
+  <title id="title">Hadoop YARN and HDFS Status</title>
+  <desc id="desc">A documentation-safe status illustration for Hadoop YARN and HDFS services in the local Docker lakehouse environment.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef2ff"/>
+    </linearGradient>
+    <linearGradient id="header" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#166534"/>
+      <stop offset="1" stop-color="#0369a1"/>
+    </linearGradient>
+    <filter id="shadow" x="-8%" y="-8%" width="116%" height="125%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .bg { fill: url(#bg); }
+      .panel { fill: #ffffff; stroke: #dbe3ee; stroke-width: 1.2; filter: url(#shadow); }
+      .headerText { font: 700 34px "Segoe UI", Arial, sans-serif; fill: #ffffff; }
+      .headerSub { font: 400 16px "Segoe UI", Arial, sans-serif; fill: #dbeafe; }
+      .title { font: 700 20px "Segoe UI", Arial, sans-serif; fill: #0f172a; }
+      .label { font: 600 14px "Segoe UI", Arial, sans-serif; fill: #475569; }
+      .value { font: 700 17px "Segoe UI", Arial, sans-serif; fill: #111827; }
+      .muted { font: 400 13px "Segoe UI", Arial, sans-serif; fill: #64748b; }
+      .ok { fill: #dcfce7; stroke: #86efac; }
+      .okText { font: 700 13px "Segoe UI", Arial, sans-serif; fill: #166534; }
+      .warn { fill: #fff7ed; stroke: #fed7aa; }
+      .warnText { font: 700 13px "Segoe UI", Arial, sans-serif; fill: #9a3412; }
+      .line { stroke: #e2e8f0; stroke-width: 1; }
+      .card { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.2; }
+      .accentGreen { fill: #f0fdf4; stroke: #bbf7d0; }
+      .accentBlue { fill: #eff6ff; stroke: #bfdbfe; }
+      .accentOrange { fill: #fff7ed; stroke: #fed7aa; }
+      .accentPurple { fill: #f5f3ff; stroke: #ddd6fe; }
+      .mono { font: 600 13px Consolas, "Courier New", monospace; fill: #334155; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1400" height="800"/>
+  <rect x="60" y="48" width="1280" height="118" rx="24" fill="url(#header)" filter="url(#shadow)"/>
+  <text class="headerText" x="98" y="102">Hadoop YARN and HDFS Runtime</text>
+  <text class="headerSub" x="100" y="135">Local Docker services used by Spark, Airflow, Hive, and Jupyter for distributed storage and cluster resource tracking.</text>
+
+  <rect class="panel" x="60" y="204" width="1280" height="528" rx="22"/>
+
+  <g>
+    <rect class="card accentGreen" x="104" y="248" width="280" height="128" rx="18"/>
+    <text class="title" x="132" y="292">ResourceManager</text>
+    <text class="muted" x="132" y="320">YARN application and queue UI</text>
+    <rect class="ok" x="132" y="338" width="92" height="28" rx="14"/>
+    <text class="okText" x="156" y="357">Running</text>
+    <text class="mono" x="132" y="396">namenode:8088/cluster</text>
+  </g>
+
+  <g>
+    <rect class="card accentBlue" x="414" y="248" width="280" height="128" rx="18"/>
+    <text class="title" x="442" y="292">NodeManager</text>
+    <text class="muted" x="442" y="320">Local executor resource service</text>
+    <rect class="ok" x="442" y="338" width="92" height="28" rx="14"/>
+    <text class="okText" x="466" y="357">Running</text>
+    <text class="mono" x="442" y="396">namenode:8042</text>
+  </g>
+
+  <g>
+    <rect class="card accentOrange" x="724" y="248" width="280" height="128" rx="18"/>
+    <text class="title" x="752" y="292">NameNode</text>
+    <text class="muted" x="752" y="320">HDFS browser and namespace UI</text>
+    <rect class="ok" x="752" y="338" width="92" height="28" rx="14"/>
+    <text class="okText" x="776" y="357">Healthy</text>
+    <text class="mono" x="752" y="396">namenode:9870</text>
+  </g>
+
+  <g>
+    <rect class="card accentPurple" x="1034" y="248" width="260" height="128" rx="18"/>
+    <text class="title" x="1062" y="292">HDFS Data Paths</text>
+    <text class="muted" x="1062" y="320">Bronze, Silver, and Gold layers</text>
+    <rect class="ok" x="1062" y="338" width="92" height="28" rx="14"/>
+    <text class="okText" x="1086" y="357">Ready</text>
+    <text class="mono" x="1062" y="396">/data/bronze /data/silver</text>
+  </g>
+
+  <text class="title" x="104" y="450">Connection Notes</text>
+  <line class="line" x1="104" y1="468" x2="1294" y2="468"/>
+
+  <text class="label" x="126" y="506">Service</text>
+  <text class="label" x="410" y="506">Container endpoint</text>
+  <text class="label" x="730" y="506">Host URL</text>
+  <text class="label" x="1048" y="506">Expected status</text>
+  <line class="line" x1="104" y1="522" x2="1294" y2="522"/>
+
+  <text class="value" x="126" y="558">YARN ResourceManager</text>
+  <text class="mono" x="410" y="558">http://namenode:8088/cluster</text>
+  <text class="mono" x="730" y="558">http://localhost:8088</text>
+  <rect class="warn" x="1048" y="536" width="194" height="30" rx="15"/>
+  <text class="warnText" x="1068" y="556">May need restart on host</text>
+
+  <line class="line" x1="104" y1="584" x2="1294" y2="584"/>
+  <text class="value" x="126" y="620">HDFS NameNode</text>
+  <text class="mono" x="410" y="620">http://namenode:9870</text>
+  <text class="mono" x="730" y="620">http://localhost:9870</text>
+  <rect class="warn" x="1048" y="598" width="194" height="30" rx="15"/>
+  <text class="warnText" x="1068" y="618">May need restart on host</text>
+
+  <line class="line" x1="104" y1="646" x2="1294" y2="646"/>
+  <text class="muted" x="126" y="686">If the browser shows ERR_EMPTY_RESPONSE on localhost, verify the service from inside the container with:</text>
+  <text class="mono" x="126" y="713">docker exec namenode bash -lc "curl -s http://namenode:8088/cluster | head"</text>
+</svg>

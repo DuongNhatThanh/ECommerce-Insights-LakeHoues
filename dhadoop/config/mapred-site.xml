@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration>
+
+  <!-- Run MapReduce jobs on YARN -->
+  <property>
+    <name>mapreduce.framework.name</name>
+    <value>yarn</value>
+  </property>
+
+  <!-- JobHistory Server RPC address -->
+  <property>
+    <name>mapreduce.jobhistory.address</name>
+    <value>namenode:10020</value>
+  </property>
+
+  <!-- JobHistory Server web UI -->
+  <property>
+    <name>mapreduce.jobhistory.webapp.address</name>
+    <value>namenode:19888</value>
+  </property>
+
+  <!-- Hadoop MapReduce home for YARN containers -->
+  <property>
+    <name>yarn.app.mapreduce.am.env</name>
+    <value>HADOOP_MAPRED_HOME=/usr/local/hadoop</value>
+  </property>
+
+  <property>
+    <name>mapreduce.map.env</name>
+    <value>HADOOP_MAPRED_HOME=/usr/local/hadoop</value>
+  </property>
+
+  <property>
+    <name>mapreduce.reduce.env</name>
+    <value>HADOOP_MAPRED_HOME=/usr/local/hadoop</value>
+  </property>
+
+  <!-- Prevent classpath issues inside Docker containers -->
+  <property>
+    <name>mapreduce.application.classpath</name>
+    <value>
+      /usr/local/hadoop/etc/hadoop,
+      /usr/local/hadoop/share/hadoop/common/*,
+      /usr/local/hadoop/share/hadoop/common/lib/*,
+      /usr/local/hadoop/share/hadoop/hdfs/*,
+      /usr/local/hadoop/share/hadoop/hdfs/lib/*,
+      /usr/local/hadoop/share/hadoop/mapreduce/*,
+      /usr/local/hadoop/share/hadoop/mapreduce/lib/*,
+      /usr/local/hadoop/share/hadoop/yarn/*,
+      /usr/local/hadoop/share/hadoop/yarn/lib/*
+    </value>
+  </property>
+
+</configuration>
